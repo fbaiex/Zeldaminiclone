@@ -14,9 +14,11 @@ public class Player extends Rectangle{
 	public int curAnimation = 0;
 	public int curFrames = 0, targetFrames = 15;
 	
-	public List<Bullet> bullets = new ArrayList<Bullet>();
+	public static List<Bullet> bullets = new ArrayList<Bullet>();
 	
 	public boolean shoot = false;
+	
+	public int dir = 1;
 	
 	public Player(int x, int y) {
 		super(x,y,32,32);
@@ -28,9 +30,11 @@ public class Player extends Rectangle{
 		if(right && World.isFree(x+spd, y)) {
 			x+=spd;
 			moved = true;
+			dir = 1;
 		}else if(left && World.isFree(x-spd, y)) {
 			x-=spd;
 			moved = true;
+			dir = -1;
 		}
 		if(up && World.isFree(x, y-spd)) {
 			y-=spd;
@@ -52,7 +56,7 @@ public class Player extends Rectangle{
 		}
 		if(shoot) {
 			shoot = false;
-			bullets.add(new Bullet(x,y,1));
+			bullets.add(new Bullet(x,y,dir));
 		}
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).tick();
